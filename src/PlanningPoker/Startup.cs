@@ -42,6 +42,7 @@ namespace PlanningPoker
             // Add the following route for porting Web API 2 controllers.
             // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
 
+            //TODO: need to figure out how to add SignalR routing
             //app2.MapSignalR();
         }
     }
