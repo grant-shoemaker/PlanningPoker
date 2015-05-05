@@ -25,7 +25,7 @@ namespace PlanningPoker
             // services.AddWebApiConventions();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAppBuilder app2)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)//, IAppBuilder app2)
         {
             // Configure the HTTP request pipeline.
             app.UseStaticFiles();
@@ -42,7 +42,7 @@ namespace PlanningPoker
             // Add the following route for porting Web API 2 controllers.
             // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
 
-            app2.MapSignalR();
+            //app2.MapSignalR();
         }
     }
 }
