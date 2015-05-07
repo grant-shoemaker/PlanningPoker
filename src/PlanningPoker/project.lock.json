@@ -7,34 +7,11 @@
       "Microsoft.AspNet.Server.WebListener >= 1.0.0-beta4",
       "Microsoft.AspNet.Mvc >= 6.0.0-beta4",
       "Microsoft.AspNet.StaticFiles >= 1.0.0-beta4",
-      "Microsoft.AspNet.SignalR >= 2.2.0"
+      "Microsoft.AspNet.SignalR.Server >= 3.0.0-*"
     ],
     "DNX,Version=v4.5.1": []
   },
   "libraries": {
-    "jQuery/1.6.4": {
-      "serviceable": false,
-      "sha": "8RzoZQFeFYL/cINRXksLWyl8D5TKctZ/2G8hrlOLLM5OgFNI9h3t3l5tB+BBbsBUxaPUageVe0p9ruU5jrFeow==",
-      "frameworks": {
-        "DNX,Version=v4.5.1": {
-          "dependencies": {},
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [],
-          "compileAssemblies": []
-        }
-      },
-      "files": [
-        "jQuery.1.6.4.nupkg",
-        "jQuery.1.6.4.nupkg.sha512",
-        "jQuery.nuspec",
-        "Content/Scripts/jquery-1.6.4-vsdoc.js",
-        "Content/Scripts/jquery-1.6.4.js",
-        "Content/Scripts/jquery-1.6.4.min.js",
-        "Tools/install.ps1",
-        "Tools/jquery-1.6.4-vsdoc-para.js",
-        "Tools/uninstall.ps1"
-      ]
-    },
     "Microsoft.AspNet.Authentication/1.0.0-beta4": {
       "serviceable": true,
       "sha": "bF++RlseLYrzDjtzrwNsLlftnj65Gctg6AkW6QMmk3W5EcNCktynbfjZrAn/1JRr7jri5XAJ546kvoayYKMjEg==",
@@ -1091,104 +1068,75 @@
         "lib/dnxcore50/Microsoft.AspNet.Server.WebListener.xml"
       ]
     },
-    "Microsoft.AspNet.SignalR/2.2.0": {
-      "serviceable": false,
-      "sha": "pQS/VDYOuukvJL8j62jYeCDyOD/nF1juEFpwiDn91oFnA/SOt6N7xOsSRtuwe+hsRKXTphJ40rkFWVx/GEfMzQ==",
+    "Microsoft.AspNet.SignalR.Messaging/3.0.0-beta4": {
+      "serviceable": true,
+      "sha": "wyxWQzz6Ktd4xvdUTOIdCuZaeDpJtY0/aa2iAk/6WLg2nbgrbtWp6f4VZK8UoURxbaAgmgLJghIO2/St4PZw5w==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
-            "Microsoft.AspNet.SignalR.JS": "2.2.0",
-            "Microsoft.AspNet.SignalR.SystemWeb": "2.2.0"
+            "Microsoft.Framework.Logging": "1.0.0-beta4",
+            "Microsoft.Framework.OptionsModel": "1.0.0-beta4"
           },
           "frameworkAssemblies": [
-            "System"
+            "mscorlib",
+            "System",
+            "System.Core",
+            "Microsoft.CSharp"
           ],
-          "runtimeAssemblies": [],
-          "compileAssemblies": []
-        }
-      },
-      "files": [
-        "Microsoft.AspNet.SignalR.2.2.0.nupkg",
-        "Microsoft.AspNet.SignalR.2.2.0.nupkg.sha512",
-        "Microsoft.AspNet.SignalR.nuspec",
-        "readme.txt"
-      ]
-    },
-    "Microsoft.AspNet.SignalR.Core/2.2.0": {
-      "serviceable": true,
-      "sha": "y+gx2iv3Da2YIkh/m8BSitF63PAs7sDJY9td9blvgrXzCvKAb664sc/2D7kNSwEiFDLDGCoax6pqe3pRRDSDHQ==",
-      "frameworks": {
-        "DNX,Version=v4.5.1": {
-          "dependencies": {
-            "Newtonsoft.Json": "6.0.4",
-            "Owin": "1.0",
-            "Microsoft.Owin": "2.1.0",
-            "Microsoft.Owin.Security": "2.1.0"
-          },
-          "frameworkAssemblies": [],
           "runtimeAssemblies": [
-            "lib/net45/Microsoft.AspNet.SignalR.Core.dll"
+            "lib/dnx451/Microsoft.AspNet.SignalR.Messaging.dll"
           ],
           "compileAssemblies": [
-            "lib/net45/Microsoft.AspNet.SignalR.Core.dll"
+            "lib/dnx451/Microsoft.AspNet.SignalR.Messaging.dll"
           ]
         }
       },
       "files": [
-        "Microsoft.AspNet.SignalR.Core.2.2.0.nupkg",
-        "Microsoft.AspNet.SignalR.Core.2.2.0.nupkg.sha512",
-        "Microsoft.AspNet.SignalR.Core.nuspec",
-        "lib/net45/Microsoft.AspNet.SignalR.Core.dll",
-        "lib/net45/Microsoft.AspNet.SignalR.Core.xml"
+        "Microsoft.AspNet.SignalR.Messaging.3.0.0-beta4.nupkg",
+        "Microsoft.AspNet.SignalR.Messaging.3.0.0-beta4.nupkg.sha512",
+        "Microsoft.AspNet.SignalR.Messaging.nuspec",
+        "lib/dnx451/Microsoft.AspNet.SignalR.Messaging.dll",
+        "lib/dnx451/Microsoft.AspNet.SignalR.Messaging.xml",
+        "lib/dnxcore50/Microsoft.AspNet.SignalR.Messaging.dll",
+        "lib/dnxcore50/Microsoft.AspNet.SignalR.Messaging.xml"
       ]
     },
-    "Microsoft.AspNet.SignalR.JS/2.2.0": {
-      "serviceable": false,
-      "sha": "VjALldAdg3AiBPSmP9HUmqFTOQVRhl/jZI9Sq5AZAEbiPPfDK1FRjqtVia35OXyC+wGW2n20M5QNRKFuflSUsA==",
-      "frameworks": {
-        "DNX,Version=v4.5.1": {
-          "dependencies": {
-            "jQuery": "1.6.4"
-          },
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [],
-          "compileAssemblies": []
-        }
-      },
-      "files": [
-        "Microsoft.AspNet.SignalR.JS.2.2.0.nupkg",
-        "Microsoft.AspNet.SignalR.JS.2.2.0.nupkg.sha512",
-        "Microsoft.AspNet.SignalR.JS.nuspec",
-        "content/Scripts/jquery.signalR-2.2.0.js",
-        "content/Scripts/jquery.signalR-2.2.0.min.js"
-      ]
-    },
-    "Microsoft.AspNet.SignalR.SystemWeb/2.2.0": {
+    "Microsoft.AspNet.SignalR.Server/3.0.0-beta4": {
       "serviceable": true,
-      "sha": "qfSoJuUDrfRjM2h5XsqXL25pMMvTKi8k+1lmzsAnqpNrvoiiXZwD5VMhUr2faru696QDDzXTfhN7h/dhOZYJ3Q==",
+      "sha": "GKI82SkW3mNebQsNkEyymKh7X/+OZvdMHIRwsCReDaS5WSqrpPMYB0AFyxQ0fdxUETiyXEWK4nljyG4bsZlBlg==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
-            "Microsoft.AspNet.SignalR.Core": "2.2.0",
-            "Microsoft.Owin.Host.SystemWeb": "2.1.0"
+            "Microsoft.AspNet.SignalR.Messaging": "3.0.0-beta4",
+            "Microsoft.AspNet.DataProtection": "1.0.0-beta4",
+            "Microsoft.AspNet.Hosting.Interfaces": "1.0.0-beta4",
+            "Microsoft.AspNet.Http.Extensions": "1.0.0-beta4",
+            "Microsoft.Framework.Logging": "1.0.0-beta4",
+            "Microsoft.Framework.Runtime.Interfaces": "1.0.0-beta4",
+            "Newtonsoft.Json": "6.0.6"
           },
           "frameworkAssemblies": [
-            "System"
+            "mscorlib",
+            "System",
+            "System.Core",
+            "Microsoft.CSharp"
           ],
           "runtimeAssemblies": [
-            "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll"
+            "lib/dnx451/Microsoft.AspNet.SignalR.Server.dll"
           ],
           "compileAssemblies": [
-            "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll"
+            "lib/dnx451/Microsoft.AspNet.SignalR.Server.dll"
           ]
         }
       },
       "files": [
-        "Microsoft.AspNet.SignalR.SystemWeb.2.2.0.nupkg",
-        "Microsoft.AspNet.SignalR.SystemWeb.2.2.0.nupkg.sha512",
-        "Microsoft.AspNet.SignalR.SystemWeb.nuspec",
-        "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll",
-        "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.XML"
+        "Microsoft.AspNet.SignalR.Server.3.0.0-beta4.nupkg",
+        "Microsoft.AspNet.SignalR.Server.3.0.0-beta4.nupkg.sha512",
+        "Microsoft.AspNet.SignalR.Server.nuspec",
+        "lib/dnx451/Microsoft.AspNet.SignalR.Server.dll",
+        "lib/dnx451/Microsoft.AspNet.SignalR.Server.xml",
+        "lib/dnxcore50/Microsoft.AspNet.SignalR.Server.dll",
+        "lib/dnxcore50/Microsoft.AspNet.SignalR.Server.xml"
       ]
     },
     "Microsoft.AspNet.StaticFiles/1.0.0-beta4": {
@@ -1964,87 +1912,6 @@
         "lib/net45/Microsoft.Net.WebSockets.xml"
       ]
     },
-    "Microsoft.Owin/2.1.0": {
-      "serviceable": true,
-      "sha": "lk0kK64mlmcmtWX8YOYkZsnZKDoGEzMZhe8e1bcP+FFcgD4f2QfKwvu5Z8Bh8WS0VO7Rgk+DJ0hwW0k+S/UGMg==",
-      "frameworks": {
-        "DNX,Version=v4.5.1": {
-          "dependencies": {
-            "Owin": "1.0"
-          },
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [
-            "lib/net45/Microsoft.Owin.dll"
-          ],
-          "compileAssemblies": [
-            "lib/net45/Microsoft.Owin.dll"
-          ]
-        }
-      },
-      "files": [
-        "Microsoft.Owin.2.1.0.nupkg",
-        "Microsoft.Owin.2.1.0.nupkg.sha512",
-        "Microsoft.Owin.nuspec",
-        "lib/net40/Microsoft.Owin.dll",
-        "lib/net40/Microsoft.Owin.XML",
-        "lib/net45/Microsoft.Owin.dll",
-        "lib/net45/Microsoft.Owin.XML"
-      ]
-    },
-    "Microsoft.Owin.Host.SystemWeb/2.1.0": {
-      "serviceable": true,
-      "sha": "S+YOPgtQuXlKGh1OZCVzvmz++2ibNeACzDlMpeXFN1QBUf9l+gstfV0f5hTbhmkDBE8LrSCBWu+9Rrte+ivNhg==",
-      "frameworks": {
-        "DNX,Version=v4.5.1": {
-          "dependencies": {
-            "Owin": "1.0",
-            "Microsoft.Owin": "2.1.0"
-          },
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [
-            "lib/net45/Microsoft.Owin.Host.SystemWeb.dll"
-          ],
-          "compileAssemblies": [
-            "lib/net45/Microsoft.Owin.Host.SystemWeb.dll"
-          ]
-        }
-      },
-      "files": [
-        "Microsoft.Owin.Host.SystemWeb.2.1.0.nupkg",
-        "Microsoft.Owin.Host.SystemWeb.2.1.0.nupkg.sha512",
-        "Microsoft.Owin.Host.SystemWeb.nuspec",
-        "lib/net40/Microsoft.Owin.Host.SystemWeb.dll",
-        "lib/net40/Microsoft.Owin.Host.SystemWeb.xml",
-        "lib/net45/Microsoft.Owin.Host.SystemWeb.dll",
-        "lib/net45/Microsoft.Owin.Host.SystemWeb.xml"
-      ]
-    },
-    "Microsoft.Owin.Security/2.1.0": {
-      "serviceable": true,
-      "sha": "4n1V0p+O6W1L0xHUM8Cjp2Y+MmmUkiCZv6PvRNIDCJD9zlerBJa2HECo9lUiWC+KuasQJ3QxB1FmipNBxdXXIQ==",
-      "frameworks": {
-        "DNX,Version=v4.5.1": {
-          "dependencies": {
-            "Owin": "1.0",
-            "Microsoft.Owin": "2.1.0"
-          },
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [
-            "lib/net45/Microsoft.Owin.Security.dll"
-          ],
-          "compileAssemblies": [
-            "lib/net45/Microsoft.Owin.Security.dll"
-          ]
-        }
-      },
-      "files": [
-        "Microsoft.Owin.Security.2.1.0.nupkg",
-        "Microsoft.Owin.Security.2.1.0.nupkg.sha512",
-        "Microsoft.Owin.Security.nuspec",
-        "lib/net45/Microsoft.Owin.Security.dll",
-        "lib/net45/Microsoft.Owin.Security.XML"
-      ]
-    },
     "Newtonsoft.Json/6.0.6": {
       "serviceable": false,
       "sha": "w26uZNyCG5VeoKiEOJ4+9/o8koSofLKwHl7WLreIcp0U6r57L7WiRXmjp8MTKFw6dYNZ9AE0lw69WYbIhUsU9Q==",
@@ -2079,28 +1946,6 @@
         "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.xml",
         "tools/install.ps1"
-      ]
-    },
-    "Owin/1.0": {
-      "serviceable": false,
-      "sha": "OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
-      "frameworks": {
-        "DNX,Version=v4.5.1": {
-          "dependencies": {},
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [
-            "lib/net40/Owin.dll"
-          ],
-          "compileAssemblies": [
-            "lib/net40/Owin.dll"
-          ]
-        }
-      },
-      "files": [
-        "Owin.1.0.nupkg",
-        "Owin.1.0.nupkg.sha512",
-        "Owin.nuspec",
-        "lib/net40/Owin.dll"
       ]
     },
     "System.Collections.Immutable/1.1.33-beta": {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
-using Microsoft.Framework.DependencyInjection;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Owin;
-using Owin;
+using Microsoft.AspNet.SignalR;
+using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.Logging;
 
-[assembly: OwinStartup(typeof(PlanningPoker.Startup))]
+
 namespace PlanningPoker
 {
     public class Startup
@@ -23,6 +19,11 @@ namespace PlanningPoker
             // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
             // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
             // services.AddWebApiConventions();
+            
+            services.AddSignalR(options =>
+            {
+                options.Hubs.EnableDetailedErrors = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)//, IAppBuilder app2)
@@ -41,9 +42,10 @@ namespace PlanningPoker
             });
             // Add the following route for porting Web API 2 controllers.
             // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
+            
 
-            //TODO: need to figure out how to add SignalR routing
-            //app2.MapSignalR();
+            //app.UseSignalR<RawConnection>("/raw-connection");
+            app.UseSignalR();
         }
     }
 }
