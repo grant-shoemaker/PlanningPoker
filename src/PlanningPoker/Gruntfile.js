@@ -10,36 +10,14 @@ module.exports = function (grunt) {
                 layout: "byComponent",
                 cleanTargetDir: true
             }
-        },
-        setupDevDt: {
-            options: {
-                targetDir: "scripts",
-                cleanTargetDir: false
-            }
-        }
-    };
-
-    var typescriptConfig = {
-        base: {
-            src: ["scripts/**/*ts"],
-            dest: "wwwroot",
-            options: {
-                module: 'amd',
-                target: 'es5',
-                sourceMap: true,
-                declaration: true
-            }
         }
     };
 
     grunt.initConfig({
-        bower: bowerConfig,
-        typescript: typescriptConfig
+        bower: bowerConfig
     });
 
-    grunt.registerTask("default", ["bower:install", "bower:setupDevDt", "typescript:base"]);
+    grunt.registerTask("default", [ "bower:install" ]);
 
     grunt.loadNpmTasks("grunt-bower-task");
-
-    grunt.loadNpmTasks("grunt-typescript");
 };

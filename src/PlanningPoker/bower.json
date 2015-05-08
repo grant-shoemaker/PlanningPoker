@@ -3,8 +3,7 @@
     "private": true,
     "dependencies": {
         "jquery": "^2.1.4",
-        "signalr": "^2.2.0",
-        "DefinitelyTyped": "*"
+        "signalr": "^2.2.0"
     },
     "exportsOverride": {
         "jquery": {
@@ -12,9 +11,6 @@
         },
         "signlar": {
             "": "jquery.signalr.{js,min.js}"
-        },
-        "DefinitelyTyped": {
-            "": [ "jquery/jquery.d.ts", "signalr/signalr.d.ts" ]
         }
     }
 }

@@ -16,4 +16,3 @@ $(function () {
         return encodedValue;
     };
 });
-//# sourceMappingURL=chat.js.map
