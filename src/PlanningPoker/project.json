@@ -15,7 +15,7 @@
     },
 
     "scripts": {
-        "postrestore": [ "npm install", "bower install" ]
+        "postrestore": [ "npm install", "bower install", "grunt" ]
     },
 
     "frameworks": {
