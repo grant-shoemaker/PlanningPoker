@@ -1,0 +1,25 @@
+﻿@model PlanningPoker.Models.JoinRoomModel
+<html>
+<head>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/signalr/jquery.signalr.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/scripts/chat-demo/chat.js"></script>
+</head>
+<body>
+    <h2>Chat</h2>
+
+    <div class="container">
+        <input type="text" id="message" />
+        <input type="button" id="sendMessage" value="Send" />
+        <input type="hidden" id="displayName" />
+        <ul id="discussion"></ul>
+    </div>
+
+    <div>
+        Users:
+        <ul id="userList"></ul>
+    </div>
+
+</body>
+</html>
