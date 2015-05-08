@@ -10,9 +10,20 @@ namespace PlanningPoker.Controllers
 {
     public class PokerController : Controller
     {
-        // GET: /<controller>/
+        // GET: /Poker/
         public IActionResult Index()
         {
+            return View();
+        }
+
+        // GET: /Poker/Room/{id}
+        [HttpGet("/Poker/Room/{id}")]
+        public IActionResult Room(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+                return HttpNotFound();
+
+            ViewBag.roomId = id;
             return View();
         }
     }

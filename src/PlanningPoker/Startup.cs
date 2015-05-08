@@ -38,7 +38,7 @@ namespace PlanningPoker
                 routes.MapRoute(
                         name: "default",
                         template: "{controller}/{action}/{id?}",
-                        defaults: new { controller = "Home", action = "Index" });
+                        defaults: new { controller = "Poker", action = "Index" });
             });
             // Add the following route for porting Web API 2 controllers.
             // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");

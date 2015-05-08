@@ -3,35 +3,27 @@
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/signalr/jquery.signalr.js"></script>
     <script src="~/signalr/hubs"></script>
-    <script src="~/scripts/poker.js"></script>
+    <script src="~/scripts/poker-room.js"></script>
 </head>
 <body>
-    <h2>Poker</h2>
+    <h2>Poker Room: @ViewBag.roomId</h2>
+
+    <input type="hidden" name="roomId" value="@ViewBag.roomId" />
 
     <div>
         Username: <span id="userName"></span>
     </div>
 
     <div>
-        Rooms:
-        <ul id="roomList"></ul>
-    </div>
-    <div>
-        <input type="text" id="roomName" />
-        <a href="#" id="newRoomLink">Create New Room</a>
-    </div>
-
-    @*<div>
         User Story:
         <textarea id="description"></textarea>
         <div id="descrDisplay"></div>
-    </div>*@
+    </div>
 
     <div>
         Users:
         <ul id="userList"></ul>
     </div>
-
 
 </body>
 </html>
