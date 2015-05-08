@@ -11,8 +11,8 @@ $(function () {
             $('#message').val('').focus();
         });
     });
+    var htmlEncode = function (value) {
+        var encodedValue = $('<div />').text(value).html();
+        return encodedValue;
+    };
 });
-var htmlEncode = function (value) {
-    var encodedValue = $('<div />').text(value).html();
-    return encodedValue;
-};

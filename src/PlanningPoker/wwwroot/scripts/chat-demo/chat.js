@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     var chat = $.connection.chatHub;
     chat.client.addNewMessageToPage = function (name, message) {
         $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + "</li>");
@@ -11,8 +11,9 @@
             $('#message').val('').focus();
         });
     });
+    var htmlEncode = function (value) {
+        var encodedValue = $('<div />').text(value).html();
+        return encodedValue;
+    };
 });
-var htmlEncode = function (value) {
-    var encodedValue = $('<div />').text(value).html();
-    return encodedValue;
-};
+//# sourceMappingURL=chat.js.map
