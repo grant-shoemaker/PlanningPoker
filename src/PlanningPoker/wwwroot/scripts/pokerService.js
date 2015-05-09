@@ -2,22 +2,48 @@
     'use strict';
 
     angular
-        .module('pokerApp', [ 'SignalR' ])
-        .factory('pokerFactory', ['$rootScope', 'Hub', '$timeout', function ($rootScope, Hub, $timeout) {
+        .module('pokerApp')
+        .factory('pokerService', ['$rootScope', 'Hub', '$timeout', function ($rootScope, Hub, $timeout) {
+
+            var Chats = this;
+
+            // ViewModel
+            var Chat = function (chat) {
+                if (!chat) chat = {};
+
+                var Chat = {
+                    UserName: chat.UserName || 'TBD',
+                    ChatMessage: chat.chatMessage || 'MessageTBD'
+                }
+
+                return Chat;
+            }
+
+
+
+
+
 
             //declaring the hub connection
-            var hub = new Hub('poker', {
+            var hub = new Hub('pokerHub', {
 
                 //client side methods
                 listeners: {
                     'updateUserConnections': function (users) {
+                        console.log('updateUserConnections:');
+                        console.log(users);
+                        $rootScope.planningPokerUsers = users;
                     },
-                    'userConnect': function(username) {
+                    'userConnect': function (username) {
+                        console.log('userConnect: ' + username);
                     },
-                    'listRooms': function(rooms) {
+                    'listRooms': function (rooms) {
+                        console.log('listRooms:');
+                        console.log(rooms);
                     },
-                    'descriptionUpdated': function(description) {
-                    }//,
+                    'descriptionUpdated': function (description) {
+                        console.log('descriptionUpdated: ' + description);
+                    }
                     
                     //'lockEmployee': function (id) {
                     //    var employee = find(id);
@@ -49,22 +75,29 @@
 
                 hubDisconnected: function () {
                     if (hub.connection.lastError) {
-                        hub.connection.start()
-                            .done(function () {
-                                if (hub.connection.state === 0) {
-                                    $timeout(function () {
-                                        //your code here 
-                                        //TODO: call the login here?
-                                    }, 2000);
-                                } else {
-                                    //your code here
-                                }
-                            })
-                            .fail(function (reason) {
-                                console.log(reason);
-                            });
+                        hub.connection.start();
+                            //.done(function () {
+                            //    hub.login($rootScope.username);
+                            //});
                     }
+                    //if (hub.connection.lastError) {
+                    //    hub.connection.start()
+                    //        .done(function () {
+                    //            if (hub.connection.state === 0) {
+                    //                $timeout(function () {
+                    //                    //your code here 
+                    //                    //TODO: call the login here?
+                    //                }, 2000);
+                    //            } else {
+                    //                //your code here
+                    //            }
+                    //        })
+                    //        .fail(function (reason) {
+                    //            console.log(reason);
+                    //        });
+                    //}
                 }
+                //, logging: true
             });
 
             //var edit = function (employee) {
