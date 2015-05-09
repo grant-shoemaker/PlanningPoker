@@ -3,35 +3,14 @@
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/signalr/jquery.signalr.js"></script>
     <script src="~/signalr/hubs"></script>
-    <script src="~/scripts/poker.js"></script>
+    <script src="~/lib/angular/angular.js"></script>
+    <script src="~/lib/angular-route/angular-route.js"></script>
+    <script src="~/lib/angular-signalr-hub/signalr-hub.js"></script>
+    <script src="~/scripts/pokerapp.js"></script>
+    <script src="~/scripts/pokercontrollers.js"></script>
+    @*<script src="~/scripts/pokerfactory.js"></script>*@
 </head>
-<body>
-    <h2>Poker</h2>
-
-    <div>
-        Username: <span id="userName"></span>
-    </div>
-
-    <div>
-        Rooms:
-        <ul id="roomList"></ul>
-    </div>
-    <div>
-        <input type="text" id="roomName" />
-        <a href="#" id="newRoomLink">Create New Room</a>
-    </div>
-
-    @*<div>
-        User Story:
-        <textarea id="description"></textarea>
-        <div id="descrDisplay"></div>
-    </div>*@
-
-    <div>
-        Users:
-        <ul id="userList"></ul>
-    </div>
-
-
+<body ng-app="pokerApp">
+    <div ng-view></div>
 </body>
 </html>
