@@ -1,28 +1,25 @@
-﻿(function () {
+﻿///import "../lib/angular/angular.js"
+
+(function () {
     'use strict';
 
     angular
         .module('pokerApp')
         .factory('pokerService', ['$rootScope', 'Hub', '$timeout', function ($rootScope, Hub, $timeout) {
 
-            var Chats = this;
-
-            // ViewModel
-            var Chat = function (chat) {
-                if (!chat) chat = {};
-
-                var Chat = {
-                    UserName: chat.UserName || 'TBD',
-                    ChatMessage: chat.chatMessage || 'MessageTBD'
-                }
-
-                return Chat;
-            }
-
-
-
-
-
+//            var Chats = this;
+//
+//            // ViewModel
+//            var Chat = function (chat) {
+//                if (!chat) chat = {};
+//
+//                var Chat = {
+//                    UserName: chat.UserName || 'TBD',
+//                    ChatMessage: chat.chatMessage || 'MessageTBD'
+//                }
+//
+//                return Chat;
+//            }
 
             //declaring the hub connection
             var hub = new Hub('pokerHub', {
@@ -44,17 +41,6 @@
                     'descriptionUpdated': function (description) {
                         console.log('descriptionUpdated: ' + description);
                     }
-                    
-                    //'lockEmployee': function (id) {
-                    //    var employee = find(id);
-                    //    employee.Locked = true;
-                    //    $rootScope.$apply();
-                    //},
-                    //'unlockEmployee': function (id) {
-                    //    var employee = find(id);
-                    //    employee.Locked = false;
-                    //    $rootScope.$apply();
-                    //}
                 },
 
                 //server side methods
@@ -69,9 +55,6 @@
                 errorHandler: function (error) {
                     console.error(error);
                 },
-
-                //specify a non default root
-                //rootPath: '/api
 
                 hubDisconnected: function () {
                     if (hub.connection.lastError) {
@@ -99,13 +82,6 @@
                 }
                 //, logging: true
             });
-
-            //var edit = function (employee) {
-            //    hub.lock(employee.Id); //Calling a server method
-            //};
-            //var done = function (employee) {
-            //    hub.unlock(employee.Id); //Calling a server method
-            //}
 
             var login = function (username) {
                 hub.login(username);
