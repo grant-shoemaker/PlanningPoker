@@ -7,20 +7,6 @@
         .module('pokerApp')
         .factory('pokerService', ['$rootScope', 'Hub', '$timeout', function ($rootScope, Hub, $timeout) {
 
-//            var Chats = this;
-//
-//            // ViewModel
-//            var Chat = function (chat) {
-//                if (!chat) chat = {};
-//
-//                var Chat = {
-//                    UserName: chat.UserName || 'TBD',
-//                    ChatMessage: chat.chatMessage || 'MessageTBD'
-//                }
-//
-//                return Chat;
-//            }
-
             //declaring the hub connection
             var hub = new Hub('pokerHub', {
 
@@ -29,7 +15,8 @@
                     'updateUserConnections': function (users) {
                         console.log('updateUserConnections:');
                         console.log(users);
-                        $rootScope.planningPokerUsers = users;
+                        $rootScope.activeUsers = users;
+                        $rootScope.$apply();
                     },
                     'userConnect': function (username) {
                         console.log('userConnect: ' + username);
@@ -37,6 +24,8 @@
                     'listRooms': function (rooms) {
                         console.log('listRooms:');
                         console.log(rooms);
+                        $rootScope.activeRooms = rooms;
+                        $rootScope.$apply();
                     },
                     'descriptionUpdated': function (description) {
                         console.log('descriptionUpdated: ' + description);

@@ -6,17 +6,18 @@
 
 <div>
     Rooms:
-    <ul id="roomList"></ul>
+    <ul id="roomList">
+        <li ng-repeat="room in activeRooms"><a href="#" ng-click="connectToRoom(room)">{{room}}</a></li>
+    </ul>
 </div>
 <div>
-    <input type="text" id="roomName" />
-    <a href="#" id="newRoomLink">Create New Room</a>
+    <input type="text" ng-model="roomName" />
+    <a href="#" ng-click="connectToRoom(roomName)">Create New Room</a>
 </div>
 
 <div>
     Users:
     <ul id="userList">
-        <li ng-repeat="user in planningPokerUsers">user</li>
+        <li ng-repeat="user in activeUsers">{{user}}</li>
     </ul>
-    {{planningPokerUsers}}
 </div>

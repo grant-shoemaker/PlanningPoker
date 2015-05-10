@@ -13,11 +13,14 @@
         function ($routeProvider, $locationProvider) {
             $routeProvider.
                 when('/', {
-                    templateUrl: 'views/poker/poker-login.html',
-                    controller: 'pokerLoginController'
-                }).when('/rooms/:username', {
+                //    templateUrl: 'views/poker/poker-login.html',
+                //    controller: 'pokerLoginController'
+                //}).when('/rooms/:username', {
                     templateUrl: 'views/poker/poker-home.html',
-                    controller: 'pokerRoomsController'
+                    controller: 'pokerHomeController'
+                }).when('/rooms/:roomName', {
+                    templateUrl: 'views/poker/poker-room.html',
+                    controller: 'pokerRoomController'
                 }).otherwise({
                     redirectTo: '/'
                 });
