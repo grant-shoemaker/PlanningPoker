@@ -23,19 +23,20 @@
                         $rootScope.activeRoomUsers = roomUsers;
                         $rootScope.$apply();
                     },
-                    'userConnect': function(username) {
+                    'userConnect': function (username) {
+                        //TODO: toast message about user connecting
                         console.log('userConnect: ' + username);
                     },
                     'listRooms': function(rooms) {
-                        console.log('listRooms:');
-                        console.log(rooms);
                         $rootScope.activeRooms = rooms;
                         $rootScope.$apply();
                     },
                     'descriptionUpdated': function(description) {
                         $rootScope.description = description;
                         $rootScope.$apply();
-                        console.log('descriptionUpdated: ' + description);
+                    },
+                    'voteRequested': function() {
+                        console.log('Vote requested');
                     }
                 },
 
@@ -85,12 +86,16 @@
             var updateDescription = function(roomName, description) {
                 hub.updateDescription(roomName, description);
             };
+            var requestVotes = function (roomName) {
+                hub.requestVotes(roomName);
+            };
 
             return {
                 connectToRoom: connectToRoom,
                 disconnectFromRoom: disconnectFromRoom,
                 listRooms: listRooms,
-                updateDescription: updateDescription
+                updateDescription: updateDescription,
+                requestVotes: requestVotes
             };
         }]);
 })();

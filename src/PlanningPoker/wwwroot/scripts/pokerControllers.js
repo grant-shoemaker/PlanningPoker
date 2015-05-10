@@ -32,6 +32,7 @@
 
         $scope.requestVotes = function() {
             console.log('request votes...');
+            pokerService.requestVotes(roomName);
         }
 
         $scope.$on('$destroy', function() {

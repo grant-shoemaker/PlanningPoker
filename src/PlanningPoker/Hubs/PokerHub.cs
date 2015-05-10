@@ -69,6 +69,7 @@ namespace PlanningPoker.Hubs
                 Clients.All.listRooms(rooms.Keys);
             }
             await Groups.Add(Context.ConnectionId, roomName);
+            //TODO: notify single user added to room?
             Clients.Group(roomName).updateRoomUsers(getRoomUsers(roomName));
         }
 
@@ -78,6 +79,8 @@ namespace PlanningPoker.Hubs
             removeRoomUser(roomName);
             if (rooms.ContainsKey(roomName))
                 Clients.Group(roomName).updateRoomUsers(getRoomUsers(roomName));
+            //else
+                //TODO: notify single user leaving room?
         }
 
         public void ListRooms()
@@ -88,6 +91,11 @@ namespace PlanningPoker.Hubs
         public void UpdateDescription(string roomName, string description)
         {
             Clients.Group(roomName).descriptionUpdated(description);
+        }
+
+        public void RequestVotes(string roomName)
+        {
+            Clients.Group(roomName).voteRequested();
         }
 
         public override Task OnConnected()
