@@ -1,1 +1,10 @@
-﻿<h1>Poker Room</h1>
+﻿<h1>Poker Room: {{roomName}}</h1>
+
+<div>Username: {{username}}</div>
+
+<div>
+    Room Users: 
+    <ul>
+        <li ng-repeat="user in activeRoomUsers">{{user}}</li>
+    </ul>
+</div>

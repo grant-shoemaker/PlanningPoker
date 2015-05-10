@@ -9,16 +9,21 @@ namespace PlanningPoker.Hubs
     public class PokerHub : Hub
     {
         private readonly static Dictionary<string, string> connections = new Dictionary<string, string>();
-        private readonly static List<string> rooms = new List<string>();
 
-        private string CurrentUsername
+        // rooms -> Key: roomName -> Value: list of ConnectionIds
+        private readonly static Dictionary<string, List<string>> rooms = new Dictionary<string, List<string>>();
+
+        private string getUsername(string connectionId)
         {
-            get {
-                var x = connections.SingleOrDefault(c => c.Key == Context.ConnectionId);
-                if (x.Equals(default(KeyValuePair<string, string>)))
-                    return x.Value;
-                return null;
-            }
+            var kvp = connections.SingleOrDefault(c => c.Key == connectionId);
+            if (!kvp.Equals(default(KeyValuePair<string, string>)))
+                return kvp.Value;
+            return null;
+        }
+
+        private string currentUsername
+        {
+            get { return getUsername(Context.ConnectionId); }
         }
 
         public void Login(string username)
@@ -32,17 +37,33 @@ namespace PlanningPoker.Hubs
             Clients.AllExcept(Context.ConnectionId).userConnect(username);
         }
 
-        public void ConnectToRoom(string roomName)
+        public string GetUsername()
         {
-            //TODO: if the room doesn't exist, create it, otherwise add connection to group
-            if (rooms.Contains(roomName))
+            return currentUsername;
+        }
+
+        private IEnumerable<string> getRoomUsers(string roomName)
+        {
+            return rooms[roomName].Select(connId => getUsername(connId));
+        }
+
+        public async void ConnectToRoom(string roomName)
+        {
+            if (rooms.Keys.Contains(roomName))
             {
-                //TODO: Add the connection to the room group
+                rooms[roomName].Add(Context.ConnectionId);
             } else
             {
-                rooms.Add(roomName);
-                Clients.All.listRooms(rooms);
+                rooms.Add(roomName, new List<string> { Context.ConnectionId });
+                Clients.All.listRooms(rooms.Keys);
             }
+            await Groups.Add(Context.ConnectionId, roomName);
+            Clients.Group(roomName).updateRoomUsers(getRoomUsers(roomName));
+        }
+
+        public void DisconnectFromRoom(string roomName)
+        {
+            //TODO:
         }
 
         public void ListRooms()
@@ -74,7 +95,7 @@ namespace PlanningPoker.Hubs
             if (!connections.ContainsKey(Context.ConnectionId))
             {
                 Clients.All.updateUserConnections(connections.Values);
-                string un = (CurrentUsername == null) ? "TBD" : CurrentUsername;
+                string un = (currentUsername == null) ? "TBD" : currentUsername;
                 connections.Add(un, Context.ConnectionId);
             }
 

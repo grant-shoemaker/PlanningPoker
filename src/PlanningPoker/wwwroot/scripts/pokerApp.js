@@ -13,9 +13,6 @@
         function ($routeProvider, $locationProvider) {
             $routeProvider.
                 when('/', {
-                //    templateUrl: 'views/poker/poker-login.html',
-                //    controller: 'pokerLoginController'
-                //}).when('/rooms/:username', {
                     templateUrl: 'views/poker/poker-home.html',
                     controller: 'pokerHomeController'
                 }).when('/rooms/:roomName', {

@@ -10,12 +10,17 @@
             //declaring the hub connection
             var hub = new Hub('pokerHub', {
 
+
                 //client side methods
                 listeners: {
                     'updateUserConnections': function (users) {
                         console.log('updateUserConnections:');
                         console.log(users);
                         $rootScope.activeUsers = users;
+                        $rootScope.$apply();
+                    },
+                    'updateRoomUsers': function (roomUsers) {
+                        $rootScope.activeRoomUsers = roomUsers;
                         $rootScope.$apply();
                     },
                     'userConnect': function (username) {
@@ -33,7 +38,7 @@
                 },
 
                 //server side methods
-                methods: [ 'login', 'connectToRoom', 'listRooms', 'updateDescription' ],
+                methods: ['login', 'connectToRoom', 'listRooms', 'updateDescription', 'getUsername'],
 
                 //query params sent on initial connection
                 //queryParams: {
@@ -48,33 +53,23 @@
                 hubDisconnected: function () {
                     if (hub.connection.lastError) {
                         hub.connection.start();
-                            //.done(function () {
-                            //    hub.login($rootScope.username);
-                            //});
                     }
-                    //if (hub.connection.lastError) {
-                    //    hub.connection.start()
-                    //        .done(function () {
-                    //            if (hub.connection.state === 0) {
-                    //                $timeout(function () {
-                    //                    //your code here 
-                    //                    //TODO: call the login here?
-                    //                }, 2000);
-                    //            } else {
-                    //                //your code here
-                    //            }
-                    //        })
-                    //        .fail(function (reason) {
-                    //            console.log(reason);
-                    //        });
-                    //}
                 }
-                //, logging: true
+                , logging: true
             });
 
-            var login = function (username) {
-                hub.login(username);
-            };
+            hub.promise.done(function (hubConnection) {
+                hub.getUsername().done(function (username) {
+                    if (username === 'TBD') {
+                        $rootScope.username = prompt('What is your name?');
+                        hub.login($rootScope.username);
+                    } else {
+                        $rootScope.username = username;
+                    }
+                    $rootScope.$apply();
+                });
+            });
+
             var connectToRoom = function (roomName) {
                 hub.connectToRoom(roomName);
             };
@@ -86,7 +81,6 @@
             };
 
             return {
-                login: login,
                 connectToRoom: connectToRoom,
                 listRooms: listRooms,
                 updateDescription: updateDescription
