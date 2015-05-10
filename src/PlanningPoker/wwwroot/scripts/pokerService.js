@@ -1,11 +1,11 @@
 ﻿///import "../lib/angular/angular.js"
 
-(function () {
+(function() {
     'use strict';
 
     angular
         .module('pokerApp')
-        .factory('pokerService', ['$rootScope', 'Hub', '$timeout', function ($rootScope, Hub, $timeout) {
+        .factory('pokerService', ['$rootScope', 'Hub', '$timeout', function($rootScope, Hub, $timeout) {
 
             //declaring the hub connection
             var hub = new Hub('pokerHub', {
@@ -13,26 +13,28 @@
 
                 //client side methods
                 listeners: {
-                    'updateUserConnections': function (users) {
+                    'updateUserConnections': function(users) {
                         console.log('updateUserConnections:');
                         console.log(users);
                         $rootScope.activeUsers = users;
                         $rootScope.$apply();
                     },
-                    'updateRoomUsers': function (roomUsers) {
+                    'updateRoomUsers': function(roomUsers) {
                         $rootScope.activeRoomUsers = roomUsers;
                         $rootScope.$apply();
                     },
-                    'userConnect': function (username) {
+                    'userConnect': function(username) {
                         console.log('userConnect: ' + username);
                     },
-                    'listRooms': function (rooms) {
+                    'listRooms': function(rooms) {
                         console.log('listRooms:');
                         console.log(rooms);
                         $rootScope.activeRooms = rooms;
                         $rootScope.$apply();
                     },
-                    'descriptionUpdated': function (description) {
+                    'descriptionUpdated': function(description) {
+                        $rootScope.description = description;
+                        $rootScope.$apply();
                         console.log('descriptionUpdated: ' + description);
                     }
                 },
@@ -46,11 +48,11 @@
                 //},
 
                 //handle connection error
-                errorHandler: function (error) {
+                errorHandler: function(error) {
                     console.error(error);
                 },
 
-                hubDisconnected: function () {
+                hubDisconnected: function() {
                     if (hub.connection.lastError) {
                         hub.connection.start();
                     }
@@ -59,8 +61,8 @@
                 , useSharedConnection: false
             });
 
-            hub.promise.done(function (hubConnection) {
-                hub.getUsername().done(function (username) {
+            hub.promise.done(function(hubConnection) {
+                hub.getUsername().done(function(username) {
                     if (username === 'TBD') {
                         $rootScope.username = prompt('What is your name?');
                         hub.login($rootScope.username);
@@ -71,17 +73,17 @@
                 });
             });
 
-            var connectToRoom = function (roomName) {
+            var connectToRoom = function(roomName) {
                 hub.connectToRoom(roomName);
             };
-            var disconnectFromRoom = function (roomName) {
+            var disconnectFromRoom = function(roomName) {
                 hub.disconnectFromRoom(roomName);
             };
-            var listRooms = function () {
+            var listRooms = function() {
                 hub.listRooms();
             };
-            var updateDescription = function (description) {
-                hub.updateDescription(description);
+            var updateDescription = function(roomName, description) {
+                hub.updateDescription(roomName, description);
             };
 
             return {

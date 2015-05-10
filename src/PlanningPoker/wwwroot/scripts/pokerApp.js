@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function() {
     'use strict';
 
     angular.module('pokerApp', [
@@ -10,7 +10,7 @@
         // 3rd Party Modules
         'SignalR'
     ]).config(['$routeProvider', "$locationProvider",
-        function ($routeProvider, $locationProvider) {
+        function($routeProvider, $locationProvider) {
             $routeProvider.
                 when('/', {
                     templateUrl: 'views/poker/poker-home.html',

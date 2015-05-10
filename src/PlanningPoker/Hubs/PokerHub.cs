@@ -85,9 +85,9 @@ namespace PlanningPoker.Hubs
             Clients.Caller.listRooms(rooms.Keys);
         }
 
-        public void UpdateDescription(string description)
+        public void UpdateDescription(string roomName, string description)
         {
-            Clients.All.descriptionUpdated(description);
+            Clients.Group(roomName).descriptionUpdated(description);
         }
 
         public override Task OnConnected()

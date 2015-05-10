@@ -8,3 +8,12 @@
         <li ng-repeat="user in activeRoomUsers">{{user}}</li>
     </ul>
 </div>
+
+<div>
+    Description:
+    <textarea ng-model="description" ng-keyup="updateDescription()"></textarea>
+</div>
+
+<div>
+    <button ng-click="requestVotes()">Request Votes</button>
+</div>
