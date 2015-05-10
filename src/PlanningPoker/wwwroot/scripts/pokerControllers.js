@@ -20,8 +20,14 @@
     }
 
     function pokerRoomController($scope, $location, $routeParams, pokerService) {
-        $scope.roomName = $routeParams.roomName;
+        var roomName = $routeParams.roomName;
+        $scope.roomName = roomName;
 
         $scope.pokerService = pokerService;
+
+        $scope.$on('$destroy', function () {
+            console.log('disconnecting from room: ' + roomName)
+            pokerService.disconnectFromRoom(roomName);
+        });
     }
 })();

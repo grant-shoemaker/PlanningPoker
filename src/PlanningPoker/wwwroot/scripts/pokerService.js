@@ -38,7 +38,7 @@
                 },
 
                 //server side methods
-                methods: ['login', 'connectToRoom', 'listRooms', 'updateDescription', 'getUsername'],
+                methods: ['login', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'getUsername'],
 
                 //query params sent on initial connection
                 //queryParams: {
@@ -56,6 +56,7 @@
                     }
                 }
                 , logging: true
+                , useSharedConnection: false
             });
 
             hub.promise.done(function (hubConnection) {
@@ -73,6 +74,9 @@
             var connectToRoom = function (roomName) {
                 hub.connectToRoom(roomName);
             };
+            var disconnectFromRoom = function (roomName) {
+                hub.disconnectFromRoom(roomName);
+            };
             var listRooms = function () {
                 hub.listRooms();
             };
@@ -82,6 +86,7 @@
 
             return {
                 connectToRoom: connectToRoom,
+                disconnectFromRoom: disconnectFromRoom,
                 listRooms: listRooms,
                 updateDescription: updateDescription
             };

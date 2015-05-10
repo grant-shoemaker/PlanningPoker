@@ -26,6 +26,17 @@ namespace PlanningPoker.Hubs
             get { return getUsername(Context.ConnectionId); }
         }
 
+        private void removeRoomUser(string roomName)
+        {
+            var list = rooms[roomName];
+            list.Remove(Context.ConnectionId);
+            if (list.Count() == 0)
+            {
+                rooms.Remove(roomName);
+                Clients.All.listRooms(rooms.Keys);
+            }
+        }
+
         public void Login(string username)
         {
             if (connections.ContainsKey(Context.ConnectionId))
@@ -61,14 +72,17 @@ namespace PlanningPoker.Hubs
             Clients.Group(roomName).updateRoomUsers(getRoomUsers(roomName));
         }
 
-        public void DisconnectFromRoom(string roomName)
+        public async void DisconnectFromRoom(string roomName)
         {
-            //TODO:
+            await Groups.Remove(Context.ConnectionId, roomName);
+            removeRoomUser(roomName);
+            if (rooms.ContainsKey(roomName))
+                Clients.Group(roomName).updateRoomUsers(getRoomUsers(roomName));
         }
 
         public void ListRooms()
         {
-            Clients.Caller.listRooms(rooms);
+            Clients.Caller.listRooms(rooms.Keys);
         }
 
         public void UpdateDescription(string description)
@@ -96,7 +110,7 @@ namespace PlanningPoker.Hubs
             {
                 Clients.All.updateUserConnections(connections.Values);
                 string un = (currentUsername == null) ? "TBD" : currentUsername;
-                connections.Add(un, Context.ConnectionId);
+                connections.Add(Context.ConnectionId, un);
             }
 
             return base.OnReconnected();
