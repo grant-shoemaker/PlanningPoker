@@ -7,19 +7,25 @@
         "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4",
         "Microsoft.AspNet.Mvc": "6.0.0-beta4",
         "Microsoft.AspNet.StaticFiles": "1.0.0-beta4",
-        "Microsoft.AspNet.SignalR.Server": "3.0.0-*"
+        "Microsoft.AspNet.SignalR.Server": "3.0.0-*",
+        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4",
+        "Kestrel": "1.0.0-beta4"
     },
 
     "commands": {
-        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
+        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
+        "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5001",
+        "gen": "Microsoft.Framework.CodeGeneration"
     },
 
     "scripts": {
-        "postrestore": [ "npm install", "bower install", "grunt" ]
+        "postrestore": ["npm install", "bower install"],
+        "prepare": ["grunt default"]
     },
 
     "frameworks": {
-        "dnx451": { }
+        "dnx451": {},
+        "dnxcore50": {}
     },
 
     "publishExclude": [
