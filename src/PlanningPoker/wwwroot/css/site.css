@@ -1,2 +1,11 @@
-﻿body {
+﻿section {
+    background: #f7f7f7;
+    margin: 1em;
+    padding: 10px 10px 10px 40px;
+}
+
+section .label {
+    margin-left: -30px;
+    font-size: 14px;
+    opacity: 0.5;
 }

@@ -4,6 +4,7 @@
     angular.module('pokerApp', [
         // Angular modules 
         'ngRoute',
+        'ngMaterial',
 
         // Custom modules 
 

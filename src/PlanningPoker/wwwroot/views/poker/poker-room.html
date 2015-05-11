@@ -1,43 +1,40 @@
 ﻿<h1>Poker Room: {{ roomName }}</h1>
 
-<div>Username: {{ username }}</div>
-<div>Role: {{ actorRole }}</div>
+<md-content>
+            <section>
+                <div class="label">Username: {{ username }}</div>
+                <div class="label">Role: {{ actorRole }}</div>
+                <div class="label">Room Users</div>
 
-<div>
-    Room Users: 
-    <table>
-        <thead>
-            <tr>
-                <td>Name</td>
-                <td>Vote</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="user in activeRoomUsers">
-                <td>{{ user.Username }}</td>
-                <td>{{ (user.Vote === -1) ? "" : user.Vote }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                <md-list>
+                    <md-list-item>
+                        <p>Name</p>
+                        <p class="md-secondary">Vote</p>
+                    </md-list-item>
+                    <md-list-item ng-repeat="user in activeRoomUsers">
+                        <p>{{ user.Username }}</p>
+                        <p class="md-secondary">{{ (user.Vote === -1) ? "" : user.Vote }}</p>
+                    </md-list-item>
+                </md-list>
+            </section>
+            <section>
+                <div class="label">Description</div>
+                <textarea ng-model="description" ng-keyup="updateDescription()" ng-show="actorRole === 'scm'"></textarea>
+                <div ng-show="actorRole === 'scm'">Description shown to players:</div>
+                <span>{{ descr }}</span>
 
-<div>
-    Description:
-    <textarea ng-model="description" ng-keyup="updateDescription()" ng-show="actorRole === 'scm'"></textarea>
-    <div ng-show="actorRole === 'scm'">Description shown to players:</div>
-    <span>{{ descr }}</span>
-</div>
-
-<div ng-show="actorRole === 'scm'">
-    <button ng-click="requestVotes()">Request Votes</button>
-    <button ng-click="resetVotes()">Reset Votes</button>
-    <button ng-click="displayVotes()">Display Votes</button>
-</div>
-
-
-<div ng-show="voteNow">
-    <h3>Vote Now:</h3>
-    <ul>
-        <li ng-repeat="val in cardValues"><a href="#" ng-click="submitVote(val)">{{ val }}</a></li>
-    </ul>
-</div>
+                <div ng-show="actorRole === 'scm'" layout="column">
+                    <md-button ng-click="requestVotes()" class="md-raised md-primary" ng-hide="voteNow">Request Votes</md-button>
+                    <md-button ng-click="displayVotes()" class="md-raised">Display Votes</md-button>
+                    <md-button ng-click="resetVotes()" class="md-warn">Reset Votes</md-button>
+                </div>
+                <div ng-show="voteNow">
+                    <h3>Vote Now:</h3>
+                    <md-list>
+                        <md-list-item ng-repeat="val in cardValues">
+                            <md-button ng-click="submitVote(val)">{{ val }}</md-button>
+                        </md-list-item>
+                    </md-list>
+                </div>
+            </section>
+</md-content>

@@ -65,8 +65,8 @@
                         hub.connection.start();
                     }
                 }
-                , logging: true
-                , useSharedConnection: false
+                //, logging: true
+                //, useSharedConnection: false
             });
 
             hub.promise.done(function(hubConnection) {

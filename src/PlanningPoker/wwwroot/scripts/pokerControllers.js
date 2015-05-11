@@ -12,6 +12,8 @@
         $scope.pokerService = pokerService;
 
         $scope.connectToRoom = function (roomName, role) {
+            if (!roomName)
+                return;
             if (!role)
                 role = 'player';
             pokerService.connectToRoom(roomName);
