@@ -19,11 +19,13 @@
                         $rootScope.activeUsers = users;
                         $rootScope.$apply();
                     },
-                    'updateRoomUsers': function(roomUsers) {
+                    'updateRoomUsers': function (roomUsers) {
+                        console.log('updateRoomUsers:');
+                        console.log(roomUsers);
                         $rootScope.activeRoomUsers = roomUsers;
                         $rootScope.$apply();
                     },
-                    'userConnect': function (username) {
+                    'userConnect': function(username) {
                         //TODO: toast message about user connecting
                         console.log('userConnect: ' + username);
                     },
@@ -31,17 +33,22 @@
                         $rootScope.activeRooms = rooms;
                         $rootScope.$apply();
                     },
-                    'descriptionUpdated': function(description) {
-                        $rootScope.description = description;
+                    'descriptionUpdated': function(descr) {
+                        $rootScope.descr = descr;
                         $rootScope.$apply();
                     },
                     'voteRequested': function() {
-                        console.log('Vote requested');
+                        $rootScope.voteNow = true;
+                        $rootScope.$apply();
+                    },
+                    'votesReset': function () {
+                        $rootScope.voteNow = false;
+                        $rootScope.$apply();
                     }
                 },
 
                 //server side methods
-                methods: ['login', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'getUsername'],
+                methods: ['login', 'getUsername', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'requestVotes', 'submitVote', 'resetVotes' ],
 
                 //query params sent on initial connection
                 //queryParams: {
@@ -70,6 +77,7 @@
                     } else {
                         $rootScope.username = username;
                     }
+                    listRooms();
                     $rootScope.$apply();
                 });
             });
@@ -89,13 +97,21 @@
             var requestVotes = function (roomName) {
                 hub.requestVotes(roomName);
             };
+            var submitVote = function(roomName, cardValue) {
+                hub.submitVote(roomName, cardValue);
+            };
+            var resetVotes = function(roomName) {
+                hub.resetVotes(roomName);
+            };
 
             return {
                 connectToRoom: connectToRoom,
                 disconnectFromRoom: disconnectFromRoom,
                 listRooms: listRooms,
                 updateDescription: updateDescription,
-                requestVotes: requestVotes
+                requestVotes: requestVotes,
+                submitVote: submitVote,
+                resetVotes: resetVotes
             };
         }]);
 })();

@@ -15,7 +15,7 @@
                 when('/', {
                     templateUrl: 'views/poker/poker-home.html',
                     controller: 'pokerHomeController'
-                }).when('/rooms/:roomName', {
+                }).when('/rooms/:roomName/:role', {
                     templateUrl: 'views/poker/poker-room.html',
                     controller: 'pokerRoomController'
                 }).otherwise({

@@ -1,19 +1,43 @@
-﻿<h1>Poker Room: {{roomName}}</h1>
+﻿<h1>Poker Room: {{ roomName }}</h1>
 
-<div>Username: {{username}}</div>
+<div>Username: {{ username }}</div>
+<div>Role: {{ actorRole }}</div>
 
 <div>
     Room Users: 
-    <ul>
-        <li ng-repeat="user in activeRoomUsers">{{user}}</li>
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Vote</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in activeRoomUsers">
+                <td>{{ user.Username }}</td>
+                <td>{{ (user.Vote === -1) ? "" : user.Vote }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <div>
     Description:
-    <textarea ng-model="description" ng-keyup="updateDescription()"></textarea>
+    <textarea ng-model="description" ng-keyup="updateDescription()" ng-show="actorRole === 'scm'"></textarea>
+    <div ng-show="actorRole === 'scm'">Description shown to players:</div>
+    <span>{{ descr }}</span>
 </div>
 
-<div>
+<div ng-show="actorRole === 'scm'">
     <button ng-click="requestVotes()">Request Votes</button>
+    <button ng-click="resetVotes()">Reset Votes</button>
+    <button ng-click="displayVotes()">Display Votes</button>
+</div>
+
+
+<div ng-show="voteNow">
+    <h3>Vote Now:</h3>
+    <ul>
+        <li ng-repeat="val in cardValues"><a href="#" ng-click="submitVote(val)">{{ val }}</a></li>
+    </ul>
 </div>

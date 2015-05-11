@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace PlanningPoker.Hubs
 {
+    public class RoomUser
+    {
+        public string ConnectionId { get; set; }
+        public string Username { get; set; }
+        public int Vote { get; set; }
+    }
+
     public class PokerHub : Hub
     {
         private readonly static Dictionary<string, string> connections = new Dictionary<string, string>();
 
-        // rooms -> Key: roomName -> Value: list of ConnectionIds
-        private readonly static Dictionary<string, List<string>> rooms = new Dictionary<string, List<string>>();
+        // rooms -> Key: roomName -> Value: list of RoomUser instances
+        private readonly static Dictionary<string, List<RoomUser>> rooms = new Dictionary<string, List<RoomUser>>();
 
         private string getUsername(string connectionId)
         {
@@ -29,12 +36,32 @@ namespace PlanningPoker.Hubs
         private void removeRoomUser(string roomName)
         {
             var list = rooms[roomName];
-            list.Remove(Context.ConnectionId);
+            var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
+            list.Remove(user);
+
             if (list.Count() == 0)
             {
                 rooms.Remove(roomName);
                 Clients.All.listRooms(rooms.Keys);
             }
+        }
+
+        private void updateVoteValue(string roomName, int cardValue)
+        {
+            var list = rooms[roomName];
+            var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
+            user.Vote = cardValue;
+        }
+
+        private void resetVotes(string roomName)
+        {
+            var list = rooms[roomName];
+            list.ForEach(user => user.Vote = -1);
+        }
+        
+        private void updateRoomUsers(string roomName)
+        {
+            Clients.Group(roomName).updateRoomUsers(rooms[roomName]);
         }
 
         public void Login(string username)
@@ -53,24 +80,20 @@ namespace PlanningPoker.Hubs
             return currentUsername;
         }
 
-        private IEnumerable<string> getRoomUsers(string roomName)
-        {
-            return rooms[roomName].Select(connId => getUsername(connId));
-        }
-
         public async void ConnectToRoom(string roomName)
         {
+            var user = new RoomUser { ConnectionId = Context.ConnectionId, Username = getUsername(Context.ConnectionId), Vote = -1 };
             if (rooms.Keys.Contains(roomName))
             {
-                rooms[roomName].Add(Context.ConnectionId);
+                rooms[roomName].Add(user);
             } else
             {
-                rooms.Add(roomName, new List<string> { Context.ConnectionId });
+                rooms.Add(roomName, new List<RoomUser> { user });
                 Clients.All.listRooms(rooms.Keys);
             }
             await Groups.Add(Context.ConnectionId, roomName);
             //TODO: notify single user added to room?
-            Clients.Group(roomName).updateRoomUsers(getRoomUsers(roomName));
+            updateRoomUsers(roomName);
         }
 
         public async void DisconnectFromRoom(string roomName)
@@ -78,7 +101,7 @@ namespace PlanningPoker.Hubs
             await Groups.Remove(Context.ConnectionId, roomName);
             removeRoomUser(roomName);
             if (rooms.ContainsKey(roomName))
-                Clients.Group(roomName).updateRoomUsers(getRoomUsers(roomName));
+                updateRoomUsers(roomName);
             //else
                 //TODO: notify single user leaving room?
         }
@@ -96,6 +119,18 @@ namespace PlanningPoker.Hubs
         public void RequestVotes(string roomName)
         {
             Clients.Group(roomName).voteRequested();
+        }
+
+        public void SubmitVote(string roomName, int cardValue)
+        {
+            updateVoteValue(roomName, cardValue);
+            updateRoomUsers(roomName);
+        }
+
+        public void ResetVotes(string roomName)
+        {
+            resetVotes(roomName);
+            updateRoomUsers(roomName);
         }
 
         public override Task OnConnected()
