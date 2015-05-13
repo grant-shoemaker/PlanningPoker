@@ -1,40 +1,43 @@
-﻿<h1>Poker Room: {{ roomName }}</h1>
+﻿<h1>Planning Room: {{ roomName }}</h1>
 
 <md-content>
-            <section>
-                <div class="label">Username: {{ username }}</div>
-                <div class="label">Role: {{ actorRole }}</div>
-                <div class="label">Room Users</div>
+    <md-button ng-click="leaveRoom()">Leave Room</md-button>
 
-                <md-list>
-                    <md-list-item>
-                        <p>Name</p>
-                        <p class="md-secondary">Vote</p>
-                    </md-list-item>
-                    <md-list-item ng-repeat="user in activeRoomUsers">
-                        <p>{{ user.Username }}</p>
-                        <p class="md-secondary">{{ (user.Vote === -1) ? "" : user.Vote }}</p>
-                    </md-list-item>
-                </md-list>
-            </section>
-            <section>
-                <div class="label">Description</div>
-                <textarea ng-model="description" ng-keyup="updateDescription()" ng-show="actorRole === 'scm'"></textarea>
-                <div ng-show="actorRole === 'scm'">Description shown to players:</div>
-                <span>{{ descr }}</span>
+    <section>
+        <div class="label">Username: {{ username }}</div>
+        <div class="label">Role: {{ actorRole }}</div>
+        <div class="label">Room Users</div>
 
-                <div ng-show="actorRole === 'scm'" layout="column">
-                    <md-button ng-click="requestVotes()" class="md-raised md-primary" ng-hide="voteNow">Request Votes</md-button>
-                    <md-button ng-click="displayVotes()" class="md-raised">Display Votes</md-button>
-                    <md-button ng-click="resetVotes()" class="md-warn">Reset Votes</md-button>
-                </div>
-                <div ng-show="voteNow">
-                    <h3>Vote Now:</h3>
-                    <md-list>
-                        <md-list-item ng-repeat="val in cardValues">
-                            <md-button ng-click="submitVote(val)">{{ val }}</md-button>
-                        </md-list-item>
-                    </md-list>
-                </div>
-            </section>
+        <!-- TODO: For some reason, updating this is terribly slow. First the new list items are added, then after a delay, the old list items are removed -->
+        <md-list>
+            <md-list-item>
+                <p>Name</p>
+                <p class="md-secondary">Vote</p>
+            </md-list-item>
+            <md-list-item ng-repeat="user in activeRoomUsers">
+                <p>{{ user.Username }}</p>
+                <p class="md-secondary">{{ (user.Vote === -1) ? "" : ((revealVotes) ? user.Vote : 'X') }}</p>
+            </md-list-item>
+        </md-list>
+    </section>
+    <section>
+        <div class="label">Description</div>
+        <textarea ng-model="description" ng-keyup="updateDescription()" ng-show="actorRole === 'scm'"></textarea>
+        <div ng-show="actorRole === 'scm'">Description shown to players:</div>
+        <span>{{ descr }}</span>
+
+        <div ng-show="actorRole === 'scm'" layout="column">
+            <md-button ng-click="requestVotes()" class="md-raised md-primary" ng-hide="voteNow">Request Votes</md-button>
+            <md-button ng-click="displayVotes()" class="md-raised">Reveal Votes</md-button>
+            <md-button ng-click="resetVotes()" class="md-warn" ng-hide="voteNow">Reset Votes</md-button>
+        </div>
+        <div ng-show="voteNow">
+            <h3>Vote Now:</h3>
+            <md-list>
+                <md-list-item ng-repeat="val in cardValues">
+                    <md-button ng-click="submitVote(val)">{{ val }}</md-button>
+                </md-list-item>
+            </md-list>
+        </div>
+    </section>
 </md-content>

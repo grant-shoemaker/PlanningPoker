@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,10 +16,10 @@ namespace PlanningPoker.Hubs
 
     public class PokerHub : Hub
     {
-        private readonly static Dictionary<string, string> connections = new Dictionary<string, string>();
+        private readonly static ConcurrentDictionary<string, string> connections = new ConcurrentDictionary<string, string>();
 
         // rooms -> Key: roomName -> Value: list of RoomUser instances
-        private readonly static Dictionary<string, List<RoomUser>> rooms = new Dictionary<string, List<RoomUser>>();
+        private readonly static ConcurrentDictionary<string, List<RoomUser>> rooms = new ConcurrentDictionary<string, List<RoomUser>>();
 
         private string getUsername(string connectionId)
         {
@@ -41,11 +42,13 @@ namespace PlanningPoker.Hubs
 
             if (list.Count() == 0)
             {
-                rooms.Remove(roomName);
+                List<RoomUser> removed;
+                rooms.TryRemove(roomName, out removed);
                 Clients.All.listRooms(rooms.Keys);
             }
         }
 
+        /// Sets the current user's vote value
         private void updateVoteValue(string roomName, int cardValue)
         {
             var list = rooms[roomName];
@@ -69,7 +72,7 @@ namespace PlanningPoker.Hubs
             if (connections.ContainsKey(Context.ConnectionId))
                 connections[Context.ConnectionId] = username;
             else
-                connections.Add(Context.ConnectionId, username);
+                connections.TryAdd(Context.ConnectionId, username);
 
             Clients.All.updateUserConnections(connections.Values);
             Clients.AllExcept(Context.ConnectionId).userConnect(username);
@@ -88,7 +91,7 @@ namespace PlanningPoker.Hubs
                 rooms[roomName].Add(user);
             } else
             {
-                rooms.Add(roomName, new List<RoomUser> { user });
+                rooms.TryAdd(roomName, new List<RoomUser> { user });
                 Clients.All.listRooms(rooms.Keys);
             }
             await Groups.Add(Context.ConnectionId, roomName);
@@ -127,6 +130,11 @@ namespace PlanningPoker.Hubs
             updateRoomUsers(roomName);
         }
 
+        public void DisplayVotes(string roomName)
+        {
+            Clients.Group(roomName).votesReveal();
+        }
+
         public void ResetVotes(string roomName)
         {
             resetVotes(roomName);
@@ -135,13 +143,18 @@ namespace PlanningPoker.Hubs
 
         public override Task OnConnected()
         {
-            connections.Add(Context.ConnectionId, "TBD");
+            string username = "TBD";
+            if (false && Context.User.Identity != null) //TODO: set up a configuration property here
+                username = Context.User.Identity.Name;
+
+            connections.TryAdd(Context.ConnectionId, username);
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            connections.Remove(Context.ConnectionId);
+            string removed;
+            connections.TryRemove(Context.ConnectionId, out removed);
             Clients.All.updateUserConnections(connections.Values);
 
             return base.OnDisconnected(stopCalled);
@@ -153,7 +166,7 @@ namespace PlanningPoker.Hubs
             {
                 Clients.All.updateUserConnections(connections.Values);
                 string un = (currentUsername == null) ? "TBD" : currentUsername;
-                connections.Add(Context.ConnectionId, un);
+                connections.TryAdd(Context.ConnectionId, un);
             }
 
             return base.OnReconnected();

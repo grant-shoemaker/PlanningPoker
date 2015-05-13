@@ -1,4 +1,7 @@
-﻿(function() {
+﻿/// <reference path="../lib/angular/angular.js" />
+/// <reference path="../lib/lodash/lodash.js" />
+
+(function() {
     'use strict';
 
     angular.module('pokerApp')
@@ -32,7 +35,7 @@
 
         $scope.description = '';
 
-        $scope.cardValues = [1, 2, 3, 5, 8, 13, 21, 34];
+        $scope.cardValues = ['PASS', '1', '2', '3', '5', '8', '13', '21', '34'];
 
         $scope.pokerService = pokerService;
 
@@ -48,15 +51,18 @@
         $scope.submitVote = function(cardValue) {
             console.log('submitting vote: ' + cardValue);
             pokerService.submitVote(roomName, cardValue);
-            $scope.voteNow = false;
         }
         $scope.resetVotes = function() {
             console.log('resetting votes');
             pokerService.resetVotes(roomName);
         }
         $scope.displayVotes = function() {
-            alert('TODO: votes will be hidden from players until this button is clicked.')
+            pokerService.displayVotes(roomName);
         };
+
+        $scope.leaveRoom = function() {
+            $location.path('/');
+        }
 
         $scope.$on('$destroy', function() {
             console.log('disconnecting from room: ' + roomName)

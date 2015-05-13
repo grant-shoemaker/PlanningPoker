@@ -1,4 +1,5 @@
-﻿///import "../lib/angular/angular.js"
+﻿/// <reference path="../lib/angular/angular.js" />
+/// <reference path="../lib/lodash/lodash.js" />
 
 (function() {
     'use strict';
@@ -14,15 +15,39 @@
                 //client side methods
                 listeners: {
                     'updateUserConnections': function(users) {
-                        console.log('updateUserConnections:');
-                        console.log(users);
                         $rootScope.activeUsers = users;
                         $rootScope.$apply();
                     },
-                    'updateRoomUsers': function (roomUsers) {
-                        console.log('updateRoomUsers:');
-                        console.log(roomUsers);
-                        $rootScope.activeRoomUsers = roomUsers;
+                    'updateRoomUsers': function(updatedUsers) {
+                        //TODO: get the current active room users, then update the current value instead of replacing it
+                        //var users = $rootScope.activeRoomUsers;
+                        $rootScope.activeRoomUsers = updatedUsers;
+                        //var xxx = [];
+                        //if (!$rootScope.activeRoomUsers) {
+                        //    $rootScope.activeRoomUsers = updatedUsers;
+                        //} else {
+                        //    angular.forEach($rootScope.activeRoomUsers, function(user) {
+                        //        if (!user) {
+                        //            user = 
+                        //        }
+                        //        var match = _.find(updatedUsers, function(u) { return u.ConnectionId === user.ConnectionId; });
+                        //        if (match) {
+                        //            // update user info
+                        //            user.Username = match.Username;
+                        //            user.Vote = match.Vote;
+                        //        } else {
+                        //            // remove missing rows
+                        //            _.remove($rootScope.activeUsers, function(u) { return u.ConnectionId === user.ConnectionId; });
+                        //        }
+                        //    });
+                        //    angular.forEach(updatedUsers, function(user) {
+                        //        var match = _.find($rootScope.activeRoomUsers, function(u) { return u.ConnectionId === user.ConnectionId; });
+                        //        if (!match) {
+                        //            // add empty rows
+                        //            $rootScope.activeRoomUsers.push(match);
+                        //        }
+                        //    });
+                        //}
                         $rootScope.$apply();
                     },
                     'userConnect': function(username) {
@@ -39,6 +64,12 @@
                     },
                     'voteRequested': function() {
                         $rootScope.voteNow = true;
+                        $rootScope.revealVotes = false;
+                        $rootScope.$apply();
+                    },
+                    'votesReveal': function() {
+                        $rootScope.revealVotes = true;
+                        $rootScope.voteNow = false;
                         $rootScope.$apply();
                     },
                     'votesReset': function () {
@@ -48,7 +79,7 @@
                 },
 
                 //server side methods
-                methods: ['login', 'getUsername', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'requestVotes', 'submitVote', 'resetVotes' ],
+                methods: ['login', 'getUsername', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'requestVotes', 'submitVote', 'displayVotes', 'resetVotes' ],
 
                 //query params sent on initial connection
                 //queryParams: {
@@ -99,7 +130,12 @@
             };
             var submitVote = function(roomName, cardValue) {
                 hub.submitVote(roomName, cardValue);
+                $rootScope.voteNow = false;
+                //$rootScope.$apply(); // apply will be called on the subsequent call to the client back from the server
             };
+            var displayVotes = function(roomName) {
+                hub.displayVotes(roomName);
+            }
             var resetVotes = function(roomName) {
                 hub.resetVotes(roomName);
             };
@@ -111,6 +147,7 @@
                 updateDescription: updateDescription,
                 requestVotes: requestVotes,
                 submitVote: submitVote,
+                displayVotes: displayVotes,
                 resetVotes: resetVotes
             };
         }]);
