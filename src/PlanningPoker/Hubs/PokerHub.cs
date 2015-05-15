@@ -153,8 +153,12 @@ namespace PlanningPoker.Hubs
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            string removed;
-            connections.TryRemove(Context.ConnectionId, out removed);
+            string username;
+            if (connections.TryGetValue(Context.ConnectionId, out username)) {
+                Clients.AllExcept(Context.ConnectionId).userDisconnect(username);
+            }
+
+            connections.TryRemove(Context.ConnectionId, out username);
             Clients.All.updateUserConnections(connections.Values);
 
             return base.OnDisconnected(stopCalled);

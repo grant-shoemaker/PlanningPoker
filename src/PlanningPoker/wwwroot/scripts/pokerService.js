@@ -6,11 +6,10 @@
 
     angular
         .module('pokerApp')
-        .factory('pokerService', ['$rootScope', 'Hub', '$timeout', function($rootScope, Hub, $timeout) {
+        .factory('pokerService', ['$rootScope', 'Hub', '$timeout', '$mdToast', function($rootScope, Hub, $timeout, $mdToast) {
 
             //declaring the hub connection
             var hub = new Hub('pokerHub', {
-
 
                 //client side methods
                 listeners: {
@@ -19,40 +18,29 @@
                         $rootScope.$apply();
                     },
                     'updateRoomUsers': function(updatedUsers) {
-                        //TODO: get the current active room users, then update the current value instead of replacing it
-                        //var users = $rootScope.activeRoomUsers;
+                        var oldUsers = _.map($rootScope.activeRoomUsers, function(u) { return u.Username; });
+                        var newUsers = _.map(updatedUsers, function(u) { return u.Username; });
+
+                        var removedUsers = _.difference(oldUsers, newUsers);
+                        _.forEach(removedUsers, function(user) {
+                            toastMessage(user + ' has left the room.');
+                        });
+
+                        var addedUsers = _.difference(newUsers, oldUsers);
+                        _.forEach(addedUsers, function(user) {
+                            toastMessage(user + ' has joined the room.');
+                        });
+
                         $rootScope.activeRoomUsers = updatedUsers;
-                        //var xxx = [];
-                        //if (!$rootScope.activeRoomUsers) {
-                        //    $rootScope.activeRoomUsers = updatedUsers;
-                        //} else {
-                        //    angular.forEach($rootScope.activeRoomUsers, function(user) {
-                        //        if (!user) {
-                        //            user = 
-                        //        }
-                        //        var match = _.find(updatedUsers, function(u) { return u.ConnectionId === user.ConnectionId; });
-                        //        if (match) {
-                        //            // update user info
-                        //            user.Username = match.Username;
-                        //            user.Vote = match.Vote;
-                        //        } else {
-                        //            // remove missing rows
-                        //            _.remove($rootScope.activeUsers, function(u) { return u.ConnectionId === user.ConnectionId; });
-                        //        }
-                        //    });
-                        //    angular.forEach(updatedUsers, function(user) {
-                        //        var match = _.find($rootScope.activeRoomUsers, function(u) { return u.ConnectionId === user.ConnectionId; });
-                        //        if (!match) {
-                        //            // add empty rows
-                        //            $rootScope.activeRoomUsers.push(match);
-                        //        }
-                        //    });
-                        //}
                         $rootScope.$apply();
                     },
                     'userConnect': function(username) {
-                        //TODO: toast message about user connecting
+                        toastMessage(username + ' has joined.');
                         console.log('userConnect: ' + username);
+                    },
+                    'userDisconnect': function(username) {
+                        toastMessage(username + ' has left.');
+                        console.log('userConnect: ' +username);
                     },
                     'listRooms': function(rooms) {
                         $rootScope.activeRooms = rooms;
@@ -113,7 +101,12 @@
                 });
             });
 
+            var toastMessage = function(msg) {
+                $mdToast.show($mdToast.simple().content(msg));
+            }
+
             var connectToRoom = function(roomName) {
+                $rootScope.activeRoomUsers = null;
                 hub.connectToRoom(roomName);
             };
             var disconnectFromRoom = function(roomName) {
@@ -129,6 +122,8 @@
                 hub.requestVotes(roomName);
             };
             var submitVote = function(roomName, cardValue) {
+                if (cardValue === 'PASS')
+                    cardValue = '-2';
                 hub.submitVote(roomName, cardValue);
                 $rootScope.voteNow = false;
                 //$rootScope.$apply(); // apply will be called on the subsequent call to the client back from the server
