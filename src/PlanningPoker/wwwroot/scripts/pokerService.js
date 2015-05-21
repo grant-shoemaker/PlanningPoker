@@ -67,7 +67,9 @@
                 },
 
                 //server side methods
-                methods: ['login', 'getUsername', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'requestVotes', 'submitVote', 'displayVotes', 'resetVotes' ],
+                methods: ['login', 'getUsername', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'requestVotes', 'submitVote', 'displayVotes', 'resetVotes'],
+
+                //transport: 'serverSentEvents',
 
                 //query params sent on initial connection
                 //queryParams: {
@@ -90,7 +92,7 @@
 
             hub.promise.done(function(hubConnection) {
                 hub.getUsername().done(function(username) {
-                    if (username === 'TBD') {
+                    if (!username || username === 'TBD') {
                         $rootScope.username = prompt('What is your name?');
                         hub.login($rootScope.username);
                     } else {
