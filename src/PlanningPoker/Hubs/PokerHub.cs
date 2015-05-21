@@ -38,13 +38,36 @@ namespace PlanningPoker.Hubs
         {
             var list = rooms[roomName];
             var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
-            list.Remove(user);
+            if (user != null)
+            {
+                list.Remove(user);
+            }
 
             if (list.Count() == 0)
             {
                 List<RoomUser> removed;
                 rooms.TryRemove(roomName, out removed);
                 Clients.All.listRooms(rooms.Keys);
+            }
+        }
+
+        private void removeUserFromAllRooms()
+        {
+            foreach (var roomName in rooms.Keys)
+            {
+                var list = rooms[roomName];
+                var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
+                if (user != null)
+                {
+                    list.Remove(user);
+                    updateRoomUsers(roomName);
+                }
+                if (list.Count() == 0)
+                {
+                    List<RoomUser> removed;
+                    rooms.TryRemove(roomName, out removed);
+                    Clients.All.listRooms(rooms.Keys);
+                }
             }
         }
 
@@ -159,6 +182,8 @@ namespace PlanningPoker.Hubs
             }
 
             connections.TryRemove(Context.ConnectionId, out username);
+            //TODO: remove this connectionId from the room also
+            removeUserFromAllRooms();
             Clients.All.updateUserConnections(connections.Values);
 
             return base.OnDisconnected(stopCalled);

@@ -69,8 +69,6 @@
                 //server side methods
                 methods: ['login', 'getUsername', 'connectToRoom', 'disconnectFromRoom', 'listRooms', 'updateDescription', 'requestVotes', 'submitVote', 'displayVotes', 'resetVotes'],
 
-                //transport: 'serverSentEvents',
-
                 //query params sent on initial connection
                 //queryParams: {
                 //    'token': 'exampletoken'

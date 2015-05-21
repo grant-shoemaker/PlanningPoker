@@ -10,7 +10,7 @@
                 <div>&nbsp;</div>
                 <div class="label">Users</div>
                 <md-list>
-                    <md-list-item ng-repeat="user in activeUsers">
+                    <md-list-item ng-repeat="user in activeUsers track by $index">
                         <p>{{ user }}</p>
                         <md-divider></md-divider>
                     </md-list-item>
