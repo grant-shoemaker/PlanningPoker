@@ -28,7 +28,7 @@
                 <md-list>
                     <md-list-item ng-repeat="room in activeRooms" ng-click="connectToRoom(room)">
                         <p>{{ room }}</p>
-                        <md-button class="md-secondary" ng-click="connectToRoom(room, 'scm')">SCM Join As</md-button>
+                        <md-button class="md-secondary" ng-click="connectToRoom(room, 'scm')" aria-label="Join as SCM">SCM Join As</md-button>
                     </md-list-item>
                 </md-list>
 
