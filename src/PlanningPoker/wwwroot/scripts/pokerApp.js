@@ -14,17 +14,15 @@
         function($routeProvider, $locationProvider) {
             $routeProvider.
                 when('/', {
-                    templateUrl: 'views/poker/poker-home.html',
+                    templateUrl: 'views/poker/poker-home.html?nd=' + Date.now(),
                     controller: 'pokerHomeController'
                 }).when('/rooms/:roomName', {
-                    redirectTo: '/rooms/:roomName/player'
+                    redirectTo: '/rooms/:roomName/player?nd=' + Date.now()
                 }).when('/rooms/:roomName/:role', {
-                    templateUrl: 'views/poker/poker-room.html',
+                    templateUrl: 'views/poker/poker-room.html?nd=' + Date.now(),
                     controller: 'pokerRoomController'
                 }).otherwise({
                     redirectTo: '/'
                 });
-
-            //$locationProvider.html5Mode(true);
         }]);
 })();

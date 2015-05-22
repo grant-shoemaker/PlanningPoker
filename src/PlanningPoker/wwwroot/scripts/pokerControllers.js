@@ -47,16 +47,13 @@
         }
 
         $scope.requestVotes = function() {
-            console.log('request votes...');
             pokerService.requestVotes(roomName);
         }
 
         $scope.submitVote = function(cardValue) {
-            console.log('submitting vote: ' + cardValue);
             pokerService.submitVote(roomName, cardValue);
         }
         $scope.resetVotes = function() {
-            console.log('resetting votes');
             pokerService.resetVotes(roomName);
         }
         $scope.displayVotes = function() {

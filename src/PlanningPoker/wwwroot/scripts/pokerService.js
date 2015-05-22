@@ -1,5 +1,6 @@
 ﻿/// <reference path="../lib/angular/angular.js" />
 /// <reference path="../lib/lodash/lodash.js" />
+/// <reference path="../lib/bluebird/bluebird.js" />
 
 (function() {
     'use strict';
@@ -104,10 +105,14 @@
 
             hub.promise.done(function(hubConnection) {
                 hub.getUsername().done(function(username) {
-                    hubPromiseResolver();
                     if (!username || username === 'TBD') {
-                        $rootScope.username = prompt('What is your name?');
+                        var usr = prompt('What is your name?');
+                        while (!usr || usr.toUpperCase() === 'TBD') {
+                            usr = prompt('What is your name?');
+                        }
+                        $rootScope.username = usr;
                         hub.login($rootScope.username);
+                        hubPromiseResolver();
                     } else {
                         $rootScope.username = username;
                     }
