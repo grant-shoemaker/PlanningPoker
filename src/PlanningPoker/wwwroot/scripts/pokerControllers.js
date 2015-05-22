@@ -19,7 +19,6 @@
                 return;
             if (!role)
                 role = 'player';
-            pokerService.connectToRoom(roomName);
             $location.path('/rooms/' + roomName + '/' + role);
         }
     }
@@ -32,6 +31,10 @@
         if (actorRole.length === 0)
             actorRole = 'player';
         $scope.actorRole = actorRole;
+
+        pokerService.hubPromise.done(function(username) {
+            pokerService.connectToRoom(roomName, actorRole);
+        });
 
         $scope.description = '';
 
@@ -65,7 +68,6 @@
         }
 
         $scope.$on('$destroy', function() {
-            console.log('disconnecting from room: ' + roomName)
             pokerService.disconnectFromRoom(roomName);
         });
     }

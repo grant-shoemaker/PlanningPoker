@@ -36,18 +36,21 @@ namespace PlanningPoker.Hubs
 
         private void removeRoomUser(string roomName)
         {
-            var list = rooms[roomName];
-            var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
-            if (user != null)
+            if (rooms.Keys.Contains(roomName))
             {
-                list.Remove(user);
-            }
+                var list = rooms[roomName];
+                var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
+                if (user != null)
+                {
+                    list.Remove(user);
+                }
 
-            if (list.Count() == 0)
-            {
-                List<RoomUser> removed;
-                rooms.TryRemove(roomName, out removed);
-                Clients.All.listRooms(rooms.Keys);
+                if (list.Count() == 0)
+                {
+                    List<RoomUser> removed;
+                    rooms.TryRemove(roomName, out removed);
+                    Clients.All.listRooms(rooms.Keys);
+                }
             }
         }
 
@@ -74,20 +77,29 @@ namespace PlanningPoker.Hubs
         /// Sets the current user's vote value
         private void updateVoteValue(string roomName, int cardValue)
         {
-            var list = rooms[roomName];
-            var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
-            user.Vote = cardValue;
+            if (rooms.Keys.Contains(roomName))
+            {
+                var list = rooms[roomName];
+                var user = list.Find(u => u.ConnectionId == Context.ConnectionId);
+                user.Vote = cardValue;
+            }
         }
 
         private void resetVotes(string roomName)
         {
-            var list = rooms[roomName];
-            list.ForEach(user => user.Vote = -1);
+            if (rooms.Keys.Contains(roomName))
+            {
+                var list = rooms[roomName];
+                list.ForEach(user => user.Vote = -1);
+            }
         }
         
         private void updateRoomUsers(string roomName)
         {
-            Clients.Group(roomName).updateRoomUsers(rooms[roomName]);
+            if (rooms.Keys.Contains(roomName))
+            {
+                Clients.Group(roomName).updateRoomUsers(rooms[roomName]);
+            }
         }
 
         public void Login(string username)

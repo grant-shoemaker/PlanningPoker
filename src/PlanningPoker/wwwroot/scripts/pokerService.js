@@ -21,26 +21,35 @@
                         var oldUsers = _.map($rootScope.activeRoomUsers, function(u) { return u.Username; });
                         var newUsers = _.map(updatedUsers, function(u) { return u.Username; });
 
-                        var removedUsers = _.difference(oldUsers, newUsers);
-                        _.forEach(removedUsers, function(user) {
-                            toastMessage(user + ' has left the room.');
-                        });
+                        if (oldUsers.length > 0) {
+                            var userAdded = false;
 
-                        var addedUsers = _.difference(newUsers, oldUsers);
-                        _.forEach(addedUsers, function(user) {
-                            toastMessage(user + ' has joined the room.');
-                        });
+                            var removedUsers = _.difference(oldUsers, newUsers);
+                            _.forEach(removedUsers, function(user) {
+                                toastMessage(user + ' has left the room.');
+                            });
+
+                            var addedUsers = _.difference(newUsers, oldUsers);
+                            _.forEach(addedUsers, function(user) {
+                                toastMessage(user + ' has joined the room.');
+                                userAdded = true;
+                            });
+
+                            if (userAdded && $rootScope.actorRole === 'scm' && $rootScope.descr) {
+                                var roomName = $rootScope.roomName;
+                                var descr = $rootScope.descr;
+                                updateDescription(roomName, descr);
+                            }
+                        }
 
                         $rootScope.activeRoomUsers = updatedUsers;
                         $rootScope.$apply();
                     },
                     'userConnect': function(username) {
                         toastMessage(username + ' has joined.');
-                        console.log('userConnect: ' + username);
                     },
                     'userDisconnect': function(username) {
                         toastMessage(username + ' has left.');
-                        console.log('userConnect: ' +username);
                     },
                     'listRooms': function(rooms) {
                         $rootScope.activeRooms = rooms;
@@ -88,8 +97,14 @@
                 //, useSharedConnection: false
             });
 
+            var hubPromiseResolver;
+            var hubPromise = new Promise(function(resolve) {
+                hubPromiseResolver = resolve;
+            });
+
             hub.promise.done(function(hubConnection) {
                 hub.getUsername().done(function(username) {
+                    hubPromiseResolver();
                     if (!username || username === 'TBD') {
                         $rootScope.username = prompt('What is your name?');
                         hub.login($rootScope.username);
@@ -105,8 +120,10 @@
                 $mdToast.show($mdToast.simple().content(msg));
             }
 
-            var connectToRoom = function(roomName) {
+            var connectToRoom = function(roomName, actorRole) {
                 $rootScope.activeRoomUsers = null;
+                $rootScope.roomName = roomName;
+                $rootScope.actorRole = actorRole;
                 hub.connectToRoom(roomName);
             };
             var disconnectFromRoom = function(roomName) {
@@ -136,6 +153,7 @@
             };
 
             return {
+                hubPromise: hubPromise,
                 connectToRoom: connectToRoom,
                 disconnectFromRoom: disconnectFromRoom,
                 listRooms: listRooms,
