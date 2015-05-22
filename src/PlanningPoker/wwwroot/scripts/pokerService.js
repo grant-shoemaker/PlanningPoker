@@ -106,12 +106,7 @@
             hub.promise.done(function(hubConnection) {
                 hub.getUsername().done(function(username) {
                     if (!username || username === 'TBD') {
-                        var usr = prompt('What is your name?');
-                        while (!usr || usr.toUpperCase() === 'TBD') {
-                            usr = prompt('What is your name?');
-                        }
-                        $rootScope.username = usr;
-                        hub.login($rootScope.username);
+                        changeUsername();
                         hubPromiseResolver();
                     } else {
                         $rootScope.username = username;
@@ -158,8 +153,18 @@
                 hub.resetVotes(roomName);
             };
 
+            var changeUsername = function() {
+                var usr = prompt('What is your name?', '');
+                while (!usr || usr.toUpperCase() === 'TBD' || usr.toUpperCase() === 'UNDEFINED' || usr.length < 3) {
+                    usr = prompt('What is your name?');
+                }
+                $rootScope.username = usr;
+                hub.login($rootScope.username);
+            };
+
             return {
                 hubPromise: hubPromise,
+                changeUsername: changeUsername,
                 connectToRoom: connectToRoom,
                 disconnectFromRoom: disconnectFromRoom,
                 listRooms: listRooms,

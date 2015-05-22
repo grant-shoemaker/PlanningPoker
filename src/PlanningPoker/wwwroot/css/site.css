@@ -1,4 +1,8 @@
-﻿section {
+﻿a:not([href]) {
+    cursor: pointer;
+}
+
+section {
     margin: 1em;
 }
 
