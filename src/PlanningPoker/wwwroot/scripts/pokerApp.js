@@ -10,8 +10,11 @@
 
         // 3rd Party Modules
         'SignalR'
-    ]).config(['$routeProvider', "$locationProvider",
-        function($routeProvider, $locationProvider) {
+    ]).config(['$routeProvider', "$locationProvider", "$httpProvider",
+        function($routeProvider, $locationProvider, $httpProvider) {
+            $httpProvider.defaults.useXDomain = true;
+            delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
             $routeProvider.
                 when('/', {
                     templateUrl: 'views/poker/poker-home.html?nd=' + Date.now(),
