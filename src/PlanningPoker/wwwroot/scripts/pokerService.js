@@ -46,10 +46,10 @@
                         $rootScope.$apply();
                     },
                     'userConnect': function(username) {
-                        toastMessage(username + ' has joined.');
+                        //toastMessage(username + ' has joined.');
                     },
                     'userDisconnect': function(username) {
-                        toastMessage(username + ' has left.');
+                        //toastMessage(username + ' has left.');
                     },
                     'listRooms': function(rooms) {
                         $rootScope.activeRooms = rooms;
@@ -135,7 +135,8 @@
             var updateDescription = function(roomName, description) {
                 hub.updateDescription(roomName, description);
             };
-            var requestVotes = function (roomName) {
+            var requestVotes = function(roomName) {
+                hub.resetVotes(roomName);
                 hub.requestVotes(roomName);
             };
             var submitVote = function(roomName, cardValue) {
