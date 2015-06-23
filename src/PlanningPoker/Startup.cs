@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Cors.Core;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.SignalR;
-using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
 
 
 namespace PlanningPoker
