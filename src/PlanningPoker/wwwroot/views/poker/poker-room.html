@@ -19,7 +19,7 @@
                         <p class="md-secondary"><strong>Vote</strong></p>
                         <md-divider></md-divider>
                     </md-list-item>
-                    <md-list-item ng-repeat="user in activeRoomUsers">
+                    <md-list-item ng-repeat="user in activeRoomUsers track by $index">
                         <p>{{ user.Username }}</p>
                         <p class="md-secondary">{{ (user.Vote === -1) ? "" : ((revealVotes) ? ((user.Vote === -2) ? 'PASS' : user.Vote) : 'X') }}</p>
                         <md-divider></md-divider>

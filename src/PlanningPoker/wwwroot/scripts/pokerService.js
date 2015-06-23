@@ -1,5 +1,6 @@
 ﻿/// <reference path="../lib/angular/angular.js" />
 /// <reference path="../lib/lodash/lodash.js" />
+/// <reference path="../lib/bluebird/bluebird.js" />
 
 (function() {
     'use strict';
@@ -46,10 +47,10 @@
                         $rootScope.$apply();
                     },
                     'userConnect': function(username) {
-                        toastMessage(username + ' has joined.');
+                        //toastMessage(username + ' has joined.');
                     },
                     'userDisconnect': function(username) {
-                        toastMessage(username + ' has left.');
+                        //toastMessage(username + ' has left.');
                     },
                     'listRooms': function(rooms) {
                         $rootScope.activeRooms = rooms;
@@ -104,10 +105,9 @@
 
             hub.promise.done(function(hubConnection) {
                 hub.getUsername().done(function(username) {
-                    hubPromiseResolver();
                     if (!username || username === 'TBD') {
-                        $rootScope.username = prompt('What is your name?');
-                        hub.login($rootScope.username);
+                        changeUsername();
+                        hubPromiseResolver();
                     } else {
                         $rootScope.username = username;
                     }
@@ -135,7 +135,8 @@
             var updateDescription = function(roomName, description) {
                 hub.updateDescription(roomName, description);
             };
-            var requestVotes = function (roomName) {
+            var requestVotes = function(roomName) {
+                hub.resetVotes(roomName);
                 hub.requestVotes(roomName);
             };
             var submitVote = function(roomName, cardValue) {
@@ -152,8 +153,18 @@
                 hub.resetVotes(roomName);
             };
 
+            var changeUsername = function() {
+                var usr = prompt('What is your name?', '');
+                while (!usr || usr.toUpperCase() === 'TBD' || usr.toUpperCase() === 'UNDEFINED' || usr.length < 3) {
+                    usr = prompt('What is your name?');
+                }
+                $rootScope.username = usr;
+                hub.login($rootScope.username);
+            };
+
             return {
                 hubPromise: hubPromise,
+                changeUsername: changeUsername,
                 connectToRoom: connectToRoom,
                 disconnectFromRoom: disconnectFromRoom,
                 listRooms: listRooms,

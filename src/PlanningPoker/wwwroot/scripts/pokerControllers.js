@@ -21,6 +21,11 @@
                 role = 'player';
             $location.path('/rooms/' + roomName + '/' + role);
         }
+        
+        $scope.changeUsername = function() {
+            pokerService.changeUsername();
+            return false;
+        }
     }
 
     function pokerRoomController($scope, $location, $routeParams, pokerService) {
@@ -38,7 +43,7 @@
 
         $scope.description = '';
 
-        $scope.cardValues = ['PASS', '1', '2', '3', '5', '8', '13', '21', '34'];
+        $scope.cardValues = ['PASS', '1', '2', '3', '5', '8', '13', '20', '40', '100'];
 
         $scope.pokerService = pokerService;
 
@@ -47,16 +52,13 @@
         }
 
         $scope.requestVotes = function() {
-            console.log('request votes...');
             pokerService.requestVotes(roomName);
         }
 
         $scope.submitVote = function(cardValue) {
-            console.log('submitting vote: ' + cardValue);
             pokerService.submitVote(roomName, cardValue);
         }
         $scope.resetVotes = function() {
-            console.log('resetting votes');
             pokerService.resetVotes(roomName);
         }
         $scope.displayVotes = function() {
