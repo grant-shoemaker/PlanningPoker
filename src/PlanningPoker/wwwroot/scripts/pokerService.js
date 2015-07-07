@@ -7,7 +7,7 @@
 
     angular
         .module('pokerApp')
-        .factory('pokerService', ['$rootScope', 'Hub', '$timeout', '$mdToast', function($rootScope, Hub, $timeout, $mdToast) {
+        .factory('pokerService', ['$rootScope', 'Hub', '$timeout', '$mdToast', '$location', function($rootScope, Hub, $timeout, $mdToast, $location) {
 
             //declaring the hub connection
             var hub = new Hub('pokerHub', {
@@ -154,17 +154,24 @@
             };
 
             var changeUsername = function() {
-                var usr = prompt('What is your name?', '');
-                while (!usr || usr.toUpperCase() === 'TBD' || usr.toUpperCase() === 'UNDEFINED' || usr.length < 3) {
-                    usr = prompt('What is your name?');
-                }
-                $rootScope.username = usr;
-                hub.login($rootScope.username);
+                $location.path('/login/');
+                //var usr = prompt('What is your name?', '');
+                //while (!usr || usr.toUpperCase() === 'TBD' || usr.toUpperCase() === 'UNDEFINED' || usr.length < 3) {
+                //    usr = prompt('What is your name?');
+                //}
+                //$rootScope.username = usr;
+                //hub.login($rootScope.username);
             };
+
+            var setUsername = function(username) {
+                $rootScope.username = username;
+                hub.login($rootScope.username);
+            }
 
             return {
                 hubPromise: hubPromise,
                 changeUsername: changeUsername,
+                setUsername: setUsername,
                 connectToRoom: connectToRoom,
                 disconnectFromRoom: disconnectFromRoom,
                 listRooms: listRooms,

@@ -11,11 +11,5 @@ namespace PlanningPoker.Controllers
         {
             return View();
         }
-
-        // GET: /Poker/SNL
-        public IActionResult SNL()
-        {
-            return View();
-        }
     }
 }

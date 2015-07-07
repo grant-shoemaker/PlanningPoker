@@ -1,0 +1,24 @@
+﻿<md-content>
+    <div layout="row" layout-sm="column">
+        <section flex>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2 class="md-flex">Planning Poker</h2>
+                </div>
+            </md-toolbar>
+            <md-content>
+                <form name="loginForm">
+                    <p>Enter your name to start playing poker.</p>
+                    <md-input-container>
+                        <label for="username">What's yer name?</label>
+                        <input type="text" name="username" ng-model="username" required />
+                    </md-input-container>
+                    <md-button ng-click="setUsername(username)" class="md-raised">OK</md-button>
+                </form>
+            </md-content>
+        </section>
+        <section flex>
+            &nbsp;
+        </section>
+    </div>
+</md-content>

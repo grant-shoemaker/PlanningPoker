@@ -6,7 +6,8 @@
 
     angular.module('pokerApp')
         .controller('pokerHomeController', pokerHomeController)
-        .controller('pokerRoomController', pokerRoomController);
+        .controller('pokerRoomController', pokerRoomController)
+        .controller('pokerLoginController', pokerLoginController);
 
     pokerHomeController.$inject = ['$scope', '$location', '$timeout', 'pokerService'];
     pokerRoomController.$inject = ['$scope', '$location', '$routeParams', 'pokerService'];
@@ -25,6 +26,17 @@
         $scope.changeUsername = function() {
             pokerService.changeUsername();
             return false;
+        }
+    }
+
+    function pokerLoginController($scope, $location, pokerService) {
+        $scope.setUsername = function(username) {
+            if ((username || '').length < 3) {
+                loginForm.username.$error = 'not good';
+                return;
+            }
+            pokerService.setUsername(username);
+            $location.path('/');
         }
     }
 

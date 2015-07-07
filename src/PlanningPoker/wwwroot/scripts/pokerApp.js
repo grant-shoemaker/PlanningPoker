@@ -19,6 +19,9 @@
                 when('/', {
                     templateUrl: 'views/poker/poker-home.html?nd=' + Date.now(),
                     controller: 'pokerHomeController'
+                }).when('/login/', {
+                    templateUrl: 'views/poker/poker-login.html?nd=' + Date.now(),
+                    controller: 'pokerLoginController'
                 }).when('/rooms/:roomName', {
                     redirectTo: '/rooms/:roomName/player?nd=' + Date.now()
                 }).when('/rooms/:roomName/:role', {
